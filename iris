@@ -4,6 +4,7 @@ from sklearn.svm import SVC
 from sklearn.metrics import accuracy_score
 
 #アヤメデータの読み込み
+#データのURL(https://github.com/kujirahand/book-mlearn-gyomu/blob/master/src/ch2/iris/iris.csv)
 iris_date = pd.read_csv("iris.csv", encoding="utf-8")
 
 #アヤメデータをラベルと入力データに分類する
