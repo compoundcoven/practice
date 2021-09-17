@@ -1,0 +1,34 @@
+%matplotlib inline
+import pandas as pd
+import matplotlib.pyplot as plt
+df = pd.read_csv('./input/wine.csv')
+df.head(2)
+
+#高評価のワインデータのみ取得
+df1 = df[df['評価']==1]
+             
+#低評価のワインデータのみ取得
+df0 = df[df['評価']==0]
+
+plt.scatter(df1["酢酸"], df1["クエン酸"], color='red')
+plt.scatter(df0["酢酸"], df0["クエン酸"], color='blue');
+
+# 説明変数Xと目的変数yの取得
+X = df.iloc[:, :-1].to_numpy()  # 最後の列以外の全列
+y = df.iloc[:, -1].to_numpy()  # 最後の列
+
+from sklearn.model_selection import train_test_split
+#データをトレーニング用、テスト用に分割
+(X_train, X_test, y_train, y_test) = train_test_split(X,y,test_size=0.3, random_state=0, )
+
+
+from sklearn.linear_model import LogisticRegression
+#ロジスティックモデルの作成
+lr = LogisticRegression(C=1000, solver='liblinear')
+
+#トレーニングデータの学習
+lr.fit(X_train, y_train)
+
+#スコアを表示（およそ82%程度の精度）
+lr.score(X_test, y_test)
+
