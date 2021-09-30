@@ -1,0 +1,21 @@
+#Dockerのコマンド
+#Wikipediaの日本語全文データからコーパスを作成する
+
+#Wikipediaの全文データをダウンロード
+$ curl https://dumps.wikimedia.org/jawiki/latest/jawiki-latest-pages-articles.xml/bz2 -o jawiki-latest-pages-articles.xml.bz2
+
+#ダウンロードした全文データを展開
+$ bzip2 -d jawiki-latest-pages-articles.xml.bz2
+
+#wp2txtをインストール
+$ sudo apt-get install ruby2.3-dev
+$ gem install wp2txt
+
+#wp2txtを用いてXMLファイルをテキストファイルに変換
+$ wp2txt --input-file ./jawiki-latest-pages-articles.xml
+
+#分解されたファイルを１つのファイルに統合
+$ cat jawiki-latest-pages-articles-* > wiki.wp2txt
+
+#統合したテキストファイルをMeCabを使って分かち書きにする
+$ mecab -b 100000 -Owakati wiki.wp2txt -o wiki_wakati.txt
